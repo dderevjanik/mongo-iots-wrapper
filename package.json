@@ -1,0 +1,30 @@
+{
+  "name": "mongo-iots-wrapper",
+  "version": "0.0.1",
+  "description": "Strongly typed MongoDB",
+  "main": "lib/Index.ts",
+  "keywords": [
+    "typescript",
+    "runtypes",
+    "mongo"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Daniel Derevjanik",
+    "email": "daniel.derevjanik@gmail.com"
+  },
+  "types": "lib/Index.d.ts",
+  "typings": "lib/Index.d.ts",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^2.5.3"
+  },
+  "dependencies": {
+    "@types/mongodb": "^2.2.11",
+    "@types/node": "^8.0.31",
+    "io-ts": "^0.7.1",
+    "mongodb": "^2.2.31"
+  }
+}
