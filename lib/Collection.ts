@@ -49,6 +49,11 @@ export type Collection<D> = {
      * Remove all documents from collection with specific props and values
      */
     removeByKey: <K extends keyof D>(key: K, value: D[K]) => Promise<D[]>;
+
+    /**
+     * Drop collection
+     */
+    drop: () => Promise<void>;
 }
 
 export const createCollection = <DOCUMENT_VAL extends t.InterfaceType<any>>(database: Db, collectionName: string, validator: t.InterfaceType<any>): Collection<t.TypeOf<DOCUMENT_VAL>> => {
@@ -132,6 +137,10 @@ export const createCollection = <DOCUMENT_VAL extends t.InterfaceType<any>>(data
         removeByKey: async () => {
             throw new Error(`ERROR: You're using function, which isn't finished yet. It'll always return same error`);
         },
+
+        drop: async () => {
+            await collection.drop();
+        }
     };
 };
 
