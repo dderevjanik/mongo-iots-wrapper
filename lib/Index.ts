@@ -3,7 +3,7 @@ import { createDocument, Document } from './Document';
 import { createCollection, Collection } from './Collection';
 import * as t from 'io-ts';
 
-type DefineStructure = {
+export type DefineStructure = {
     /**
      * Collections consist from documents
      * @desc use this if you're going to save list of users, logs, media etc.
@@ -21,7 +21,7 @@ type DefineStructure = {
     };
 };
 
-type Structure<Definition extends DefineStructure, Collections = Definition['Collections']> = Readonly<{
+export type Structure<Definition extends DefineStructure, Collections = Definition['Collections']> = Readonly<{
     /**
      * Collections consist from documents
      * @desc use this if you're going to save list of users, logs, media etc.
