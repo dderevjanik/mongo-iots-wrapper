@@ -1,5 +1,6 @@
 import { Db } from 'mongodb';
 import * as t from 'io-ts';
+import { ObjectId } from 'bson';
 
 export type Collection<D> = {
 
@@ -56,7 +57,7 @@ export type Collection<D> = {
     drop: () => Promise<void>;
 }
 
-export const createCollection = <DOCUMENT_VAL extends t.InterfaceType<any>>(database: Db, collectionName: string, validator: t.InterfaceType<any>): Collection<t.TypeOf<DOCUMENT_VAL>> => {
+export const createCollection = <DOCUMENT_VAL extends t.InterfaceType<any> | t.IntersectionType<any, any>>(database: Db, collectionName: string, validator: t.InterfaceType<any> | t.IntersectionType<any, any>): Collection<t.TypeOf<DOCUMENT_VAL>> => {
     type DOCUMENT = t.TypeOf<DOCUMENT_VAL>;
     type KEYS = keyof DOCUMENT;
     const collection = database.collection(collectionName);
@@ -104,6 +105,7 @@ export const createCollection = <DOCUMENT_VAL extends t.InterfaceType<any>>(data
 
         findByKey: async <K extends KEYS>(key: K, value: DOCUMENT[K]) => {
             const documents = await collection.find({ [key]: { $eq: value } }).toArray() as DOCUMENT[];
+            console.log(documents)
             documents.forEach(doc => {
                 t.validate(doc, validator).mapLeft(err => {
                     // TODO: be more descriptive
@@ -123,19 +125,54 @@ export const createCollection = <DOCUMENT_VAL extends t.InterfaceType<any>>(data
                 // TODO: be more descriptive
                 throw new Error(`ERROR: Updated document in DB has different type`);
             });
-            await collection.findOneAndUpdate({ _id: id }, partial);
+            // remove id from updated object
+            if ((partial as any)._id) {
+                delete (partial as any)._id
+            }
+            return await collection.findOneAndUpdate({ _id: id }, partial, { returnOriginal: false });
         },
 
         updateByKey: async <K extends KEYS>(key: K, value: DOCUMENT[K], partial: Partial<DOCUMENT>) => {
-            throw new Error(`ERROR: You're using function, which isn't finished yet. It'll always return same error`);
+            const documents = await collection.find({ [key]: { $eq: value } }).toArray() as DOCUMENT[];
+            documents.forEach(doc => {
+                t.validate(doc, validator).mapLeft(err => {
+                    // TODO: be more descriptive
+                    throw new Error(`ERROR: Found document in DB has different type`);
+                });
+            });
+            // remove id from updated object
+            if ((partial as any)._id) {
+                delete (partial as any)._id
+            }
+            return documents.map(async (document) => {
+                return await collection.findOneAndUpdate({ [key]: { $eq: value } }, partial, { returnOriginal: false });
+            })
         },
 
-        removeById: async () => {
-            throw new Error(`ERROR: You're using function, which isn't finished yet. It'll always return same error`);
+        removeById: async (id: string) => {
+            const document = await collection.findOne({ _id: id }) as DOCUMENT | null;
+            if (!document) {
+                throw new Error(`ERROR: Document with id '${id}' doesn't exists in Collection`);
+            }
+            const updatedDocument = Object.assign(document);
+            t.validate(updatedDocument, validator).mapLeft(err => {
+                // TODO: be more descriptive
+                throw new Error(`ERROR: Updated document in DB has different type`);
+            });
+            return await collection.findOneAndDelete({ _id: id });
         },
 
-        removeByKey: async () => {
-            throw new Error(`ERROR: You're using function, which isn't finished yet. It'll always return same error`);
+        removeByKey: async <K extends KEYS>(key: K, value: DOCUMENT[K]) => {
+            const documents = await collection.find({ [key]: { $eq: value } }).toArray() as DOCUMENT[];
+            documents.forEach(doc => {
+                t.validate(doc, validator).mapLeft(err => {
+                    // TODO: be more descriptive
+                    throw new Error(`ERROR: Found document in DB has different type`);
+                });
+            });
+            return documents.map(async (document) => {
+                return await collection.findOneAndDelete({ [key]: { $eq: value } });
+            })
         },
 
         drop: async () => {

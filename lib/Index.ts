@@ -9,7 +9,7 @@ export type DefineStructure = {
      * @desc use this if you're going to save list of users, logs, media etc.
      */
     Collections: {
-        [CollectionName: string]: t.InterfaceType<any>;
+        [CollectionName: string]: t.InterfaceType<any> | t.IntersectionType<any, any>;
     };
 
     /**
@@ -17,7 +17,7 @@ export type DefineStructure = {
      * @desc use this if you're going to save e.g. configuration object
      */
     Documents: {
-        [DocumentName: string]: t.InterfaceType<any>;
+        [DocumentName: string]: t.InterfaceType<any> | t.IntersectionType<any, any>;
     };
 };
 

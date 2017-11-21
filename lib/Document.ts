@@ -24,7 +24,7 @@ export type Document<D> = {
      * It'll replace whole document
      * If document doesn't exists, it'll throw an error
      */
-    replace: (document: D) => Promise<void>;
+    replace: (document: D) => Promise<D>;
 
     /**
      * Check if document exists
@@ -38,7 +38,7 @@ export type Document<D> = {
     drop: () => Promise<D>;
 }
 
-export const createDocument = <DOCUMENT_VAL extends t.InterfaceType<any>>(database: Db, documentName: string, validator: t.InterfaceType<any>): Document<t.TypeOf<DOCUMENT_VAL>> => {
+export const createDocument = <DOCUMENT_VAL extends t.InterfaceType<any> | t.IntersectionType<any, any>>(database: Db, documentName: string, validator: t.InterfaceType<any> | t.IntersectionType<any, any>): Document<t.TypeOf<DOCUMENT_VAL>> => {
     type DOCUMENT = t.TypeOf<DOCUMENT_VAL>;
     const collection = database.collection('DOCUMENTS');
 
@@ -87,8 +87,7 @@ export const createDocument = <DOCUMENT_VAL extends t.InterfaceType<any>>(databa
             if (!existDocument) {
                 throw new Error(`ERROR: Document '${documentName}' doesn't exists in DB`);
             }
-            await collection.findOneAndReplace({ _id: documentName }, document);
-            return await collection.findOne({ _id: documentName }) as DOCUMENT;
+            return await collection.findOneAndReplace({ _id: documentName }, document, { returnOriginal: false });
         },
 
         exists: async () => {
