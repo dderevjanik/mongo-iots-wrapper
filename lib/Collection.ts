@@ -57,7 +57,7 @@ export type Collection<D> = {
     drop: () => Promise<void>;
 }
 
-export const createCollection = <DOCUMENT_VAL extends ExtendableObject>(database: Db, collectionName: string, validator: t.InterfaceType<any> | t.IntersectionType<any, any>): Collection<t.TypeOf<DOCUMENT_VAL>> => {
+export const createCollection = <DOCUMENT_VAL extends ExtendableObject>(database: Db, collectionName: string, validator: ExtendableObject): Collection<t.TypeOf<DOCUMENT_VAL>> => {
     type DOCUMENT = t.TypeOf<DOCUMENT_VAL>;
     type KEYS = keyof DOCUMENT;
     const collection = database.collection(collectionName);
