@@ -1,6 +1,5 @@
 import { Db } from 'mongodb';
 import * as t from 'io-ts';
-import { ObjectId } from 'bson';
 
 export type Collection<D> = {
 
