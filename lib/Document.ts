@@ -1,4 +1,5 @@
 import { Db } from 'mongodb';
+import { ExtendableObject } from './Utils';
 import * as t from 'io-ts';
 
 export type Document<D> = {
@@ -38,7 +39,7 @@ export type Document<D> = {
     drop: () => Promise<D>;
 }
 
-export const createDocument = <DOCUMENT_VAL extends t.InterfaceType<any> | t.IntersectionType<any, any>>(database: Db, documentName: string, validator: t.InterfaceType<any> | t.IntersectionType<any, any>): Document<t.TypeOf<DOCUMENT_VAL>> => {
+export const createDocument = <DOCUMENT_VAL extends ExtendableObject>(database: Db, documentName: string, validator: t.InterfaceType<any> | t.IntersectionType<any, any>): Document<t.TypeOf<DOCUMENT_VAL>> => {
     type DOCUMENT = t.TypeOf<DOCUMENT_VAL>;
     const collection = database.collection('DOCUMENTS');
 

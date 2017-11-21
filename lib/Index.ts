@@ -1,6 +1,7 @@
 import { Db } from 'mongodb';
 import { createDocument, Document } from './Document';
 import { createCollection, Collection } from './Collection';
+import { ExtendableObject } from './Utils';
 import * as t from 'io-ts';
 
 export type DefineStructure = {
@@ -9,7 +10,7 @@ export type DefineStructure = {
      * @desc use this if you're going to save list of users, logs, media etc.
      */
     Collections: {
-        [CollectionName: string]: t.InterfaceType<any> | t.IntersectionType<any, any>;
+        [CollectionName: string]: ExtendableObject;
     };
 
     /**
@@ -17,7 +18,7 @@ export type DefineStructure = {
      * @desc use this if you're going to save e.g. configuration object
      */
     Documents: {
-        [DocumentName: string]: t.InterfaceType<any> | t.IntersectionType<any, any>;
+        [DocumentName: string]: ExtendableObject;
     };
 };
 

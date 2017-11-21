@@ -1,4 +1,5 @@
 import { Db } from 'mongodb';
+import { ExtendableObject } from './Utils';
 import * as t from 'io-ts';
 
 export type Collection<D> = {
@@ -56,7 +57,7 @@ export type Collection<D> = {
     drop: () => Promise<void>;
 }
 
-export const createCollection = <DOCUMENT_VAL extends t.InterfaceType<any> | t.IntersectionType<any, any>>(database: Db, collectionName: string, validator: t.InterfaceType<any> | t.IntersectionType<any, any>): Collection<t.TypeOf<DOCUMENT_VAL>> => {
+export const createCollection = <DOCUMENT_VAL extends ExtendableObject>(database: Db, collectionName: string, validator: t.InterfaceType<any> | t.IntersectionType<any, any>): Collection<t.TypeOf<DOCUMENT_VAL>> => {
     type DOCUMENT = t.TypeOf<DOCUMENT_VAL>;
     type KEYS = keyof DOCUMENT;
     const collection = database.collection(collectionName);
@@ -104,7 +105,6 @@ export const createCollection = <DOCUMENT_VAL extends t.InterfaceType<any> | t.I
 
         findByKey: async <K extends KEYS>(key: K, value: DOCUMENT[K]) => {
             const documents = await collection.find({ [key]: { $eq: value } }).toArray() as DOCUMENT[];
-            console.log(documents)
             documents.forEach(doc => {
                 t.validate(doc, validator).mapLeft(err => {
                     // TODO: be more descriptive
