@@ -1,12 +1,17 @@
 {
 	"name": "mongo-iots-wrapper",
-	"version": "0.0.2",
+	"version": "0.0.4",
 	"description": "Strongly typed MongoDB",
 	"main": "dist/Index.js",
-	"keywords": ["typescript", "runtypes", "mongo"],
+	"keywords": [
+		"typescript",
+		"runtypes",
+		"mongo"
+	],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "tsc"
+		"build": "tsc",
+		"lint": "prettier --write lib/**/*.ts"
 	},
 	"author": {
 		"name": "Daniel Derevjanik",
@@ -16,6 +21,7 @@
 	"typings": "dist/Index.d.ts",
 	"license": "MIT",
 	"devDependencies": {
+		"prettier": "^1.9.1",
 		"typescript": "^2.5.3"
 	},
 	"dependencies": {
