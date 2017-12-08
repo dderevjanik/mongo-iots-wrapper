@@ -1,31 +1,28 @@
 {
-  "name": "mongo-iots-wrapper",
-  "version": "0.0.2",
-  "description": "Strongly typed MongoDB",
-  "main": "dist/Index.js",
-  "keywords": [
-    "typescript",
-    "runtypes",
-    "mongo"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
-  },
-  "author": {
-    "name": "Daniel Derevjanik",
-    "email": "daniel.derevjanik@gmail.com"
-  },
-  "types": "dist/Index.d.ts",
-  "typings": "dist/Index.d.ts",
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^2.5.3"
-  },
-  "dependencies": {
-    "@types/mongodb": "^2.2.11",
-    "@types/node": "^8.0.31",
-    "io-ts": "^0.7.1",
-    "mongodb": "^2.2.31"
-  }
+	"name": "mongo-iots-wrapper",
+	"version": "0.0.2",
+	"description": "Strongly typed MongoDB",
+	"main": "dist/Index.js",
+	"keywords": ["typescript", "runtypes", "mongo"],
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "tsc"
+	},
+	"author": {
+		"name": "Daniel Derevjanik",
+		"email": "daniel.derevjanik@gmail.com"
+	},
+	"types": "dist/Index.d.ts",
+	"typings": "dist/Index.d.ts",
+	"license": "MIT",
+	"devDependencies": {
+		"typescript": "^2.5.3"
+	},
+	"dependencies": {
+		"@types/mongodb": "^2.2.11",
+		"@types/node": "^8.0.31",
+		"io-ts": "^0.9.1",
+		"io-ts-reporters": "0.0.17",
+		"mongodb": "^2.2.31"
+	}
 }
