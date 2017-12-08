@@ -36,22 +36,19 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var t = require("io-ts");
+var ErrorReporter_1 = require("./ErrorReporter");
 exports.createDocument = function (database, documentName, validator) {
-    var collection = database.collection('DOCUMENTS');
+    var collection = database.collection("DOCUMENTS");
     return {
         create: function (document) { return __awaiter(_this, void 0, void 0, function () {
             var existDocument, docWithID;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        t.validate(document, validator).mapLeft(function (err) {
-                            // TODO: be more descriptive
-                            throw new Error("ERROR: Document, which are you going to insert to DB, has different type");
-                        });
+                        ErrorReporter_1.errorReporter(document, validator);
                         return [4 /*yield*/, collection.findOne({ _id: documentName })];
                     case 1:
-                        existDocument = _a.sent();
+                        existDocument = (_a.sent());
                         if (existDocument) {
                             throw new Error("ERROR: Document '" + documentName + "' already exists in DB");
                         }
@@ -69,10 +66,11 @@ exports.createDocument = function (database, documentName, validator) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, collection.findOne({ _id: documentName })];
                     case 1:
-                        existDocument = _a.sent();
+                        existDocument = (_a.sent());
                         if (!existDocument) {
                             throw new Error("ERROR: Document '" + documentName + "' doesn't exists in DB");
                         }
+                        ErrorReporter_1.errorReporter(existDocument, validator);
                         return [2 /*return*/, existDocument];
                 }
             });
@@ -83,19 +81,16 @@ exports.createDocument = function (database, documentName, validator) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, collection.findOne({ _id: documentName })];
                     case 1:
-                        existDocument = _a.sent();
+                        existDocument = (_a.sent());
                         if (!existDocument) {
                             throw new Error("ERROR: Document '" + documentName + "' doesn't exists in DB");
                         }
-                        t.validate(Object.assign(existDocument, partial), validator).mapLeft(function (err) {
-                            // TODO: be more descriptive
-                            throw new Error("ERROR: Final Document, which will be updated, has different type");
-                        });
+                        ErrorReporter_1.errorReporter(Object.assign(existDocument, partial), validator);
                         return [4 /*yield*/, collection.findOneAndUpdate({ _id: documentName }, partial)];
                     case 2:
                         _a.sent();
                         return [4 /*yield*/, collection.findOne({ _id: documentName })];
-                    case 3: return [2 /*return*/, _a.sent()];
+                    case 3: return [2 /*return*/, (_a.sent())];
                 }
             });
         }); },
@@ -104,21 +99,15 @@ exports.createDocument = function (database, documentName, validator) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        t.validate(document, validator).mapLeft(function (err) {
-                            // TODO: be more descriptive
-                            throw new Error("ERROR: Document, which are you going to replace, has different type");
-                        });
+                        ErrorReporter_1.errorReporter(document, validator);
                         return [4 /*yield*/, collection.findOne({ _id: documentName })];
                     case 1:
-                        existDocument = _a.sent();
+                        existDocument = (_a.sent());
                         if (!existDocument) {
                             throw new Error("ERROR: Document '" + documentName + "' doesn't exists in DB");
                         }
-                        return [4 /*yield*/, collection.findOneAndReplace({ _id: documentName }, document)];
-                    case 2:
-                        _a.sent();
-                        return [4 /*yield*/, collection.findOne({ _id: documentName })];
-                    case 3: return [2 /*return*/, _a.sent()];
+                        return [4 /*yield*/, collection.findOneAndReplace({ _id: documentName }, document, { returnOriginal: false })];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         }); },
@@ -128,12 +117,9 @@ exports.createDocument = function (database, documentName, validator) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, collection.findOne({ _id: documentName })];
                     case 1:
-                        existDocument = _a.sent();
+                        existDocument = (_a.sent());
                         if (existDocument) {
-                            t.validate(existDocument, validator).mapLeft(function (err) {
-                                // TODO: be more descriptive
-                                throw new Error("ERROR: Document, which exists in DB, has different type");
-                            });
+                            ErrorReporter_1.errorReporter(existDocument, validator);
                             return [2 /*return*/, true];
                         }
                         return [2 /*return*/, false];
@@ -146,16 +132,17 @@ exports.createDocument = function (database, documentName, validator) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, collection.findOne({ _id: documentName })];
                     case 1:
-                        existDocument = _a.sent();
+                        existDocument = (_a.sent());
                         if (!existDocument) {
                             throw new Error("ERROR: Document '" + documentName + "' doesn't exists in DB");
                         }
+                        ErrorReporter_1.errorReporter(existDocument, validator);
                         return [4 /*yield*/, collection.deleteOne({ _id: documentName })];
                     case 2:
                         _a.sent();
                         return [2 /*return*/, existDocument];
                 }
             });
-        }); },
+        }); }
     };
 };

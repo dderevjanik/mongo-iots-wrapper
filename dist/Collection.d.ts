@@ -1,5 +1,4 @@
-import { Db } from 'mongodb';
-import * as t from 'io-ts';
+import { Db } from "mongodb";
 export declare type Collection<D> = {
     /**
      * Get all documents from collection
@@ -44,4 +43,4 @@ export declare type Collection<D> = {
      */
     drop: () => Promise<void>;
 };
-export declare const createCollection: <DOCUMENT_VAL extends t.InterfaceType<any>>(database: Db, collectionName: string, validator: t.InterfaceType<any>) => Collection<DOCUMENT_VAL["_A"]>;
+export declare const createCollection: <DOCUMENT_VAL extends any>(database: Db, collectionName: string, validator: any) => Collection<DOCUMENT_VAL["_A"]>;

@@ -7,10 +7,7 @@ var BaseSchema = t.interface({
 exports.config = t.interface({
     webTitle: t.string,
     adminEmail: t.string,
-    webLanguage: t.union([
-        t.literal('English'),
-        t.literal('Slovak')
-    ]),
+    webLanguage: t.union([t.literal("English"), t.literal("Slovak")]),
     timezone: t.string,
     dateFormat: t.number,
     googleAnalytics: t.string
@@ -18,11 +15,7 @@ exports.config = t.interface({
 exports.log = t.interface({
     dateCreated: t.number,
     log: t.string,
-    logType: t.union([
-        t.literal('Error'),
-        t.literal('Warning'),
-        t.literal('Normal')
-    ])
+    logType: t.union([t.literal("Error"), t.literal("Warning"), t.literal("Normal")])
 });
 exports.media = t.interface({
     name: t.string,
