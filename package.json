@@ -1,37 +1,6 @@
 {
-<<<<<<< HEAD
-  "name": "mongo-iots-wrapper",
-  "version": "0.0.3",
-  "description": "Strongly typed MongoDB",
-  "main": "dist/Index.js",
-  "keywords": [
-    "typescript",
-    "runtypes",
-    "mongo"
-  ],
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
-  },
-  "author": {
-    "name": "Daniel Derevjanik",
-    "email": "daniel.derevjanik@gmail.com"
-  },
-  "types": "dist/Index.d.ts",
-  "typings": "dist/Index.d.ts",
-  "license": "MIT",
-  "devDependencies": {
-    "typescript": "^2.5.3"
-  },
-  "dependencies": {
-    "@types/mongodb": "^2.2.11",
-    "@types/node": "^8.0.31",
-    "io-ts": "^0.7.1",
-    "mongodb": "^2.2.31"
-  }
-=======
 	"name": "mongo-iots-wrapper",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Strongly typed MongoDB",
 	"main": "dist/Index.js",
 	"keywords": [
@@ -62,5 +31,4 @@
 		"io-ts-reporters": "0.0.17",
 		"mongodb": "^2.2.31"
 	}
->>>>>>> 1c088697dc1cdb188b84b348df971a30eee64a52
 }
