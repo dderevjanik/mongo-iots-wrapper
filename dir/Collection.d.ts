@@ -1,5 +1,9 @@
+<<<<<<< HEAD:dir/Collection.d.ts
 import { Db } from 'mongodb';
 import { ExtendableObject } from './Utils';
+=======
+import { Db } from "mongodb";
+>>>>>>> 1c088697dc1cdb188b84b348df971a30eee64a52:dist/Collection.d.ts
 export declare type Collection<D> = {
     /**
      * Get all documents from collection
@@ -44,4 +48,8 @@ export declare type Collection<D> = {
      */
     drop: () => Promise<void>;
 };
+<<<<<<< HEAD:dir/Collection.d.ts
 export declare const createCollection: <DOCUMENT_VAL extends ExtendableObject>(database: Db, collectionName: string, validator: ExtendableObject) => Collection<DOCUMENT_VAL["_A"]>;
+=======
+export declare const createCollection: <DOCUMENT_VAL extends any>(database: Db, collectionName: string, validator: any) => Collection<DOCUMENT_VAL["_A"]>;
+>>>>>>> 1c088697dc1cdb188b84b348df971a30eee64a52:dist/Collection.d.ts
