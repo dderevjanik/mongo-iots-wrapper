@@ -1,5 +1,5 @@
 import { Db } from 'mongodb';
-import * as t from 'io-ts';
+import { ExtendableObject } from './Utils';
 export declare type Document<D> = {
     /**
      * Will create a document.
@@ -20,7 +20,7 @@ export declare type Document<D> = {
      * It'll replace whole document
      * If document doesn't exists, it'll throw an error
      */
-    replace: (document: D) => Promise<void>;
+    replace: (document: D) => Promise<D>;
     /**
      * Check if document exists
      */
@@ -31,4 +31,4 @@ export declare type Document<D> = {
      */
     drop: () => Promise<D>;
 };
-export declare const createDocument: <DOCUMENT_VAL extends t.InterfaceType<any>>(database: Db, documentName: string, validator: t.InterfaceType<any>) => Document<DOCUMENT_VAL["_A"]>;
+export declare const createDocument: <DOCUMENT_VAL extends ExtendableObject>(database: Db, documentName: string, validator: ExtendableObject) => Document<DOCUMENT_VAL["_A"]>;

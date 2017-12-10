@@ -1,5 +1,5 @@
 import { Db } from 'mongodb';
-import * as t from 'io-ts';
+import { ExtendableObject } from './Utils';
 export declare type Collection<D> = {
     /**
      * Get all documents from collection
@@ -44,4 +44,4 @@ export declare type Collection<D> = {
      */
     drop: () => Promise<void>;
 };
-export declare const createCollection: <DOCUMENT_VAL extends t.InterfaceType<any>>(database: Db, collectionName: string, validator: t.InterfaceType<any>) => Collection<DOCUMENT_VAL["_A"]>;
+export declare const createCollection: <DOCUMENT_VAL extends ExtendableObject>(database: Db, collectionName: string, validator: ExtendableObject) => Collection<DOCUMENT_VAL["_A"]>;

@@ -114,11 +114,8 @@ exports.createDocument = function (database, documentName, validator) {
                         if (!existDocument) {
                             throw new Error("ERROR: Document '" + documentName + "' doesn't exists in DB");
                         }
-                        return [4 /*yield*/, collection.findOneAndReplace({ _id: documentName }, document)];
-                    case 2:
-                        _a.sent();
-                        return [4 /*yield*/, collection.findOne({ _id: documentName })];
-                    case 3: return [2 /*return*/, _a.sent()];
+                        return [4 /*yield*/, collection.findOneAndReplace({ _id: documentName }, document, { returnOriginal: false })];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         }); },

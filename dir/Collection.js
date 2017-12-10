@@ -145,26 +145,89 @@ exports.createCollection = function (database, collectionName, validator) {
                             // TODO: be more descriptive
                             throw new Error("ERROR: Updated document in DB has different type");
                         });
-                        return [4 /*yield*/, collection.findOneAndUpdate({ _id: id }, partial)];
-                    case 2:
-                        _a.sent();
-                        return [2 /*return*/];
+                        // remove id from updated object
+                        if (partial._id) {
+                            delete partial._id;
+                        }
+                        return [4 /*yield*/, collection.findOneAndUpdate({ _id: id }, partial, { returnOriginal: false })];
+                    case 2: return [2 /*return*/, _a.sent()];
                 }
             });
         }); },
         updateByKey: function (key, value, partial) { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                throw new Error("ERROR: You're using function, which isn't finished yet. It'll always return same error");
+            var _this = this;
+            var documents, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, collection.find((_a = {}, _a[key] = { $eq: value }, _a)).toArray()];
+                    case 1:
+                        documents = _b.sent();
+                        documents.forEach(function (doc) {
+                            t.validate(doc, validator).mapLeft(function (err) {
+                                // TODO: be more descriptive
+                                throw new Error("ERROR: Found document in DB has different type");
+                            });
+                        });
+                        // remove id from updated object
+                        if (partial._id) {
+                            delete partial._id;
+                        }
+                        return [2 /*return*/, documents.map(function (document) { return __awaiter(_this, void 0, void 0, function () {
+                                var _a;
+                                return __generator(this, function (_b) {
+                                    switch (_b.label) {
+                                        case 0: return [4 /*yield*/, collection.findOneAndUpdate((_a = {}, _a[key] = { $eq: value }, _a), partial, { returnOriginal: false })];
+                                        case 1: return [2 /*return*/, _b.sent()];
+                                    }
+                                });
+                            }); })];
+                }
             });
         }); },
-        removeById: function () { return __awaiter(_this, void 0, void 0, function () {
+        removeById: function (id) { return __awaiter(_this, void 0, void 0, function () {
+            var document, updatedDocument;
             return __generator(this, function (_a) {
-                throw new Error("ERROR: You're using function, which isn't finished yet. It'll always return same error");
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, collection.findOne({ _id: id })];
+                    case 1:
+                        document = _a.sent();
+                        if (!document) {
+                            throw new Error("ERROR: Document with id '" + id + "' doesn't exists in Collection");
+                        }
+                        updatedDocument = Object.assign(document);
+                        t.validate(updatedDocument, validator).mapLeft(function (err) {
+                            // TODO: be more descriptive
+                            throw new Error("ERROR: Updated document in DB has different type");
+                        });
+                        return [4 /*yield*/, collection.findOneAndDelete({ _id: id })];
+                    case 2: return [2 /*return*/, _a.sent()];
+                }
             });
         }); },
-        removeByKey: function () { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                throw new Error("ERROR: You're using function, which isn't finished yet. It'll always return same error");
+        removeByKey: function (key, value) { return __awaiter(_this, void 0, void 0, function () {
+            var _this = this;
+            var documents, _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0: return [4 /*yield*/, collection.find((_a = {}, _a[key] = { $eq: value }, _a)).toArray()];
+                    case 1:
+                        documents = _b.sent();
+                        documents.forEach(function (doc) {
+                            t.validate(doc, validator).mapLeft(function (err) {
+                                // TODO: be more descriptive
+                                throw new Error("ERROR: Found document in DB has different type");
+                            });
+                        });
+                        return [2 /*return*/, documents.map(function (document) { return __awaiter(_this, void 0, void 0, function () {
+                                var _a;
+                                return __generator(this, function (_b) {
+                                    switch (_b.label) {
+                                        case 0: return [4 /*yield*/, collection.findOneAndDelete((_a = {}, _a[key] = { $eq: value }, _a))];
+                                        case 1: return [2 /*return*/, _b.sent()];
+                                    }
+                                });
+                            }); })];
+                }
             });
         }); },
         drop: function () { return __awaiter(_this, void 0, void 0, function () {

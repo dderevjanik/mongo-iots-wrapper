@@ -1,6 +1,7 @@
 import { Db } from 'mongodb';
 import { Document } from './Document';
 import { Collection } from './Collection';
+import { ExtendableObject } from './Utils';
 import * as t from 'io-ts';
 export declare type DefineStructure = {
     /**
@@ -8,14 +9,14 @@ export declare type DefineStructure = {
      * @desc use this if you're going to save list of users, logs, media etc.
      */
     Collections: {
-        [CollectionName: string]: t.InterfaceType<any>;
+        [CollectionName: string]: ExtendableObject;
     };
     /**
      * Documents is special kind of Collection, where every document is unique/different
      * @desc use this if you're going to save e.g. configuration object
      */
     Documents: {
-        [DocumentName: string]: t.InterfaceType<any>;
+        [DocumentName: string]: ExtendableObject;
     };
 };
 export declare type Structure<Definition extends DefineStructure, Collections = Definition['Collections']> = Readonly<{
