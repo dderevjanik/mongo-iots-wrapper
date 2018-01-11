@@ -12,7 +12,7 @@ export type Collection<D> = {
     /**
      * Insert one document to collection
      */
-    insertOne: (document: D) => Promise<void>;
+    insertOne: (document: D) => Promise<D | null>;
 
     /**
      * Insert several documents to collection
@@ -77,7 +77,12 @@ export const createCollection = <DOCUMENT_VAL extends ExtendableObject>(
 
         insertOne: async (document: DOCUMENT) => {
             errorReporter(document, validator);
-            await collection.insert(document);
+            const newDocumentContainer = await collection.insertOne(document);
+            const newDocument = (await collection.findOne({ _id: newDocumentContainer.insertedId })) as DOCUMENT;
+            if (newDocument) {
+                errorReporter(newDocument, validator);
+            }
+            return newDocument;
         },
 
         insertMany: async (...documents: DOCUMENT[]) => {

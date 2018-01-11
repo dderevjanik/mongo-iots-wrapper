@@ -21,11 +21,12 @@ const client = new MongoClient();
   );
 
   const x = 'NotANumber' as any;
-  mongoClient.Collections.users.insertOne({
+  const a = mongoClient.Collections.users.insertOne({
     dateCreated: x,
     email: 'dasds',
     password: 'dasasd'
   });
+  console.log(a);
 
   // TEST DOCUMENTS
   // TEST COLLECTIONS
