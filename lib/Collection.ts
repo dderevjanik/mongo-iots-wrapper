@@ -1,5 +1,5 @@
 import * as t from 'io-ts';
-import { Db } from 'mongodb';
+import { Db, ObjectId } from 'mongodb';
 import { ExtendableObject } from './Utils';
 import { errorReporter } from './ErrorReporter';
 
@@ -92,8 +92,9 @@ export const createCollection = <DOCUMENT_VAL extends ExtendableObject>(
             await collection.insertMany(documents);
         },
 
-        findById: async (id: string) => {
-            const document = (await collection.findOne({ _id: id })) as DOCUMENT;
+        findById: async (id: string | ObjectId) => {
+            const objectId = typeof id === 'string' ? new ObjectId(id) : id;
+            const document = (await collection.findOne({ _id: objectId })) as DOCUMENT;
             if (document) {
                 errorReporter(document, validator);
             }
