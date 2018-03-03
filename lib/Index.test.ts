@@ -2,11 +2,12 @@ import { MongoClient } from 'mongodb';
 import { mongoRTWrapper } from './Index';
 import * as t from 'io-ts';
 import { schema } from './Schema.test';
+import { connectionString } from './Config';
 
 const client = new MongoClient();
 
 (async () => {
-  const db = await client.connect('mongodb://192.168.99.100:3002');
+  const db = await client.connect(connectionString);
 
   const mongoClient = mongoRTWrapper(
     {
@@ -22,7 +23,7 @@ const client = new MongoClient();
 
   const x = 'NotANumber' as any;
   const a = mongoClient.Collections.users.insertOne({
-    dateCreated: x,
+    dateCreated: 123,
     email: 'dasds',
     password: 'dasasd'
   });

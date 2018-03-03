@@ -9,8 +9,8 @@ import { ExtendableObject } from './Utils';
  */
 export function errorReporter(document: any, validator: t.Any): void {
   if (process.env.NODE_ENV !== 'production') {
-    const value = t.validate(document, validator) as any;
-    const errors = reporter(value);
+    const value = validator.asDecoder().decode(document);
+    const errors: string[] = reporter(value);
     if (errors.length > 0) {
       const msg = errors.join('\n');
       throw new Error(`While validating document retrieved from db:\n${msg}`);

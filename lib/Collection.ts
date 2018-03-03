@@ -109,8 +109,9 @@ export const createCollection = <DOCUMENT_VAL extends ExtendableObject>(
             return documents;
         },
 
-        updateById: async (id: string, partial: Partial<DOCUMENT>) => {
-            const document = (await collection.findOne({ _id: id })) as DOCUMENT | null;
+        updateById: async (id: string | ObjectId, partial: Partial<DOCUMENT>) => {
+            const objectId = typeof id === 'string' ? new ObjectId(id) : id;
+            const document = (await collection.findOne({ _id: objectId })) as DOCUMENT | null;
             if (!document) {
                 throw new Error(`ERROR: Document with id '${id}' doesn't exists in Collection`);
             }
@@ -120,7 +121,7 @@ export const createCollection = <DOCUMENT_VAL extends ExtendableObject>(
             if ((partial as any)._id) {
                 delete (partial as any)._id;
             }
-            return await collection.findOneAndUpdate({ _id: id }, partial, { returnOriginal: false });
+            return await collection.findOneAndUpdate({ _id: objectId }, partial, { returnOriginal: false });
         },
 
         updateByKey: async <K extends KEYS>(key: K, value: DOCUMENT[K], partial: Partial<DOCUMENT>) => {
