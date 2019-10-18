@@ -29,6 +29,6 @@
 		"@types/node": "^8.0.31",
 		"io-ts": "^1.0.5",
 		"io-ts-reporters": "0.0.20",
-		"mongodb": "^2.2.31"
+		"mongodb": "^3.1.13"
 	}
 }
